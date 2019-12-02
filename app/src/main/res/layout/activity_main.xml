@@ -62,17 +62,17 @@
                     android:onClick="btnDisConn"
                     android:text="@string/str_disconnect"/>
 
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:onClick="btnPrinterState"
-                    android:text="@string/str_state_query"/>
+                <!--<Button-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:onClick="btnPrinterState"-->
+                    <!--android:text="@string/str_state_query"/>-->
 
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:onClick="btnPrinterPower"
-                    android:text="@string/str_power_query"/>
+                <!--<Button-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:onClick="btnPrinterPower"-->
+                    <!--android:text="@string/str_power_query"/>-->
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

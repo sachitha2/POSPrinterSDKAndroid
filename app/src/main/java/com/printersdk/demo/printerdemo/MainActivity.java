@@ -166,6 +166,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void btnReceiptPrint( View view )
     {
+
+
         if ( DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id] == null ||
                 !DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].getConnState() )
         {
@@ -180,6 +182,7 @@ public class MainActivity extends AppCompatActivity {
             {
                 if ( DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].getCurrentPrinterCommand() == PrinterCommand.ESC )
                 {
+                    Log.d("CHATA",DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].getMacAddress());
                     sendReceiptWithResponse();
                 } else {
                     mHandler.obtainMessage( PRINTER_COMMAND_ERROR ).sendToTarget();
@@ -344,75 +347,75 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void btnPrinterState( View view )
-    {
+//    public void btnPrinterState( View view )
+//    {
+//
+//        if ( DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id] == null ||
+//                !DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].getConnState() )
+//        {
+//            Utils.toast( this, getString( R.string.str_cann_printer ) );
+//            return;
+//        }
+//        DeviceConnFactoryManager.whichFlag = true;
+//        ThreadPool.getInstantiation().addTask( new Runnable()
+//        {
+//            @Override
+//            public void run()
+//            {
+//                Vector<Byte> data = new Vector<>( esc.length );
+//                if ( DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].getCurrentPrinterCommand() == PrinterCommand.ESC )
+//                {
+//                    for ( int i = 0; i < esc.length; i++ )
+//                    {
+//                        data.add( esc[i] );
+//                    }
+//                    DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].sendDataImmediately( data );
+//                }else if ( DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].getCurrentPrinterCommand() == PrinterCommand.TSC )
+//                {
+//                    for ( int i = 0; i < tsc.length; i++ )
+//                    {
+//                        data.add( tsc[i] );
+//                    }
+//                    DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].sendDataImmediately( data );
+//                }else if ( DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].getCurrentPrinterCommand() == PrinterCommand.CPCL )
+//                {
+//                    for ( int i = 0; i < cpcl.length; i++ )
+//                    {
+//                        data.add( cpcl[i] );
+//                    }
+//                    DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].sendDataImmediately( data );
+//                }
+//            }
+//        } );
+//    }
 
-        if ( DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id] == null ||
-                !DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].getConnState() )
-        {
-            Utils.toast( this, getString( R.string.str_cann_printer ) );
-            return;
-        }
-        DeviceConnFactoryManager.whichFlag = true;
-        ThreadPool.getInstantiation().addTask( new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                Vector<Byte> data = new Vector<>( esc.length );
-                if ( DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].getCurrentPrinterCommand() == PrinterCommand.ESC )
-                {
-                    for ( int i = 0; i < esc.length; i++ )
-                    {
-                        data.add( esc[i] );
-                    }
-                    DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].sendDataImmediately( data );
-                }else if ( DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].getCurrentPrinterCommand() == PrinterCommand.TSC )
-                {
-                    for ( int i = 0; i < tsc.length; i++ )
-                    {
-                        data.add( tsc[i] );
-                    }
-                    DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].sendDataImmediately( data );
-                }else if ( DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].getCurrentPrinterCommand() == PrinterCommand.CPCL )
-                {
-                    for ( int i = 0; i < cpcl.length; i++ )
-                    {
-                        data.add( cpcl[i] );
-                    }
-                    DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].sendDataImmediately( data );
-                }
-            }
-        } );
-    }
 
 
-
-    public void btnPrinterPower(View v){
-
-        if ( DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id] == null ||
-                !DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].getConnState() )
-        {
-            Utils.toast( this, getString( R.string.str_cann_printer ) );
-            return;
-        }
-        DeviceConnFactoryManager.whichFlag = false;
-        ThreadPool.getInstantiation().addTask( new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                if ( DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].getCurrentPrinterCommand() == PrinterCommand.ESC ) {
-                    byte[] bytes = FactoryCommand.searchPower(0);
-                    Vector<Byte> data = new Vector<>(bytes.length);
-                    for (int i = 0; i < bytes.length; i++) {
-                        data.add(bytes[i]);
-                    }
-                    DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].sendDataImmediately( data );
-                }
-            }
-        } );
-    }
+//    public void btnPrinterPower(View v){
+//
+//        if ( DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id] == null ||
+//                !DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].getConnState() )
+//        {
+//            Utils.toast( this, getString( R.string.str_cann_printer ) );
+//            return;
+//        }
+//        DeviceConnFactoryManager.whichFlag = false;
+//        ThreadPool.getInstantiation().addTask( new Runnable()
+//        {
+//            @Override
+//            public void run()
+//            {
+//                if ( DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].getCurrentPrinterCommand() == PrinterCommand.ESC ) {
+//                    byte[] bytes = FactoryCommand.searchPower(0);
+//                    Vector<Byte> data = new Vector<>(bytes.length);
+//                    for (int i = 0; i < bytes.length; i++) {
+//                        data.add(bytes[i]);
+//                    }
+//                    DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].sendDataImmediately( data );
+//                }
+//            }
+//        } );
+//    }
 
     @Override
     protected void onActivityResult( int requestCode, int resultCode, Intent data )
