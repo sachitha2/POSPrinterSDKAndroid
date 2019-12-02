@@ -90,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     private int		id = 0;
-    private Spinner		mode_sp;
 //    private byte[]		tscmode		= { 0x1f, 0x1b, 0x1f, (byte) 0xfc, 0x01, 0x02, 0x03, 0x33 };
 //    private byte[]		cpclmode	= { 0x1f, 0x1b, 0x1f, (byte) 0xfc, 0x01, 0x02, 0x03, 0x44 };
 //    private byte[]		escmode		= { 0x1f, 0x1b, 0x1f, (byte) 0xfc, 0x01, 0x02, 0x03, 0x55 };
@@ -121,8 +120,7 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>( this,
                 android.R.layout.simple_spinner_item, list );
         adapter.setDropDownViewResource( android.R.layout.simple_list_item_single_choice );
-        mode_sp = (Spinner) findViewById( R.id.mode_sp );
-        mode_sp.setAdapter( adapter );
+
     }
 
 
@@ -415,37 +413,6 @@ public class MainActivity extends AppCompatActivity {
             }
         } );
     }
-
-
-
-
-
-
-
-    public void btnModeChange( View view )
-    {
-        if ( DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id] == null ||
-                !DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].getConnState() )
-        {
-            Utils.toast( this, getString( R.string.str_cann_printer ) );
-            return;
-        }
-        if ( DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].getCurrentPrinterCommand() == PrinterCommand.CPCL )
-        {
-            CpclCommand cpclCommand = new CpclCommand();
-            cpclCommand.addInitializePrinter();
-            DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].sendDataImmediately( cpclCommand.getCommand() );
-        }
-        int sp_no = mode_sp.getSelectedItemPosition(); //0票据,1标签,2面单
-        byte[] bytes = FactoryCommand.changeWorkMode(sp_no);
-        Vector<Byte> data = new Vector<>();
-        for (int i = 0; i < bytes.length; i++) {
-            data.add(bytes[i]);
-        }
-        DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].sendDataImmediately( data );
-        DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].closePort( id );
-    }
-
 
     @Override
     protected void onActivityResult( int requestCode, int resultCode, Intent data )
