@@ -20,13 +20,6 @@ import android.widget.Toast;
 import java.util.HashMap;
 import java.util.Iterator;
 
-/**
- * Created by Administrator
- *
- * @author 猿史森林
- *         Date: 2017/11/3
- *         Class description:
- */
 public class UsbDeviceList extends Activity {
     /**
      * Debugging

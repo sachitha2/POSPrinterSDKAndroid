@@ -3,13 +3,6 @@ package com.printersdk.demo.printerdemo;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-/**
- * Created by Administrator
- *
- * @author 猿史森林
- *         Date: 2017/10/23
- *         Class description:
- */
 public class SharedPreferencesUtil {
     private static final String NAME = "Configs";
     private static SharedPreferences sharedPreferences;

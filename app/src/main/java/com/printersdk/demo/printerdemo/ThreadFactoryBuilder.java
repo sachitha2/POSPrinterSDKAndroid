@@ -4,13 +4,6 @@ import android.support.annotation.NonNull;
 
 import java.util.concurrent.ThreadFactory;
 
-/**
- * Created by Administrator
- *
- * @author 猿史森林
- *         Date: 2017/11/2
- *         Class description:
- */
 public class ThreadFactoryBuilder implements ThreadFactory {
 
     private String name;
