@@ -175,16 +175,6 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult( new Intent( this, BluetoothDeviceList.class ), Constant.BLUETOOTH_REQUEST_CODE );
     }
 
-
-
-    public void btnMoreDevices( View view )
-    {
-        startActivityForResult( new Intent( this, ConnMoreDevicesActivity.class ), CONN_MOST_DEVICES );
-    }
-
-
-
-
     public void btnReceiptPrint( View view )
     {
         if ( DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id] == null ||
@@ -617,28 +607,7 @@ public class MainActivity extends AppCompatActivity {
         DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].sendDataImmediately( data );
         DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].closePort( id );
     }
-
-
-    public void btnReceiptAndLabelContinuityPrint( View view )
-    {
-        if ( DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id] == null ||
-                !DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].getConnState() )
-        {
-            Utils.toast( this, getString( R.string.str_cann_printer ) );
-            return;
-        }
-        if ( etPrintCounts.getText().toString().trim().isEmpty() )
-        {
-            Utils.toast( this, getString( R.string.str_continuity_count ) );
-            return;
-        }
-        counts		= Integer.parseInt( etPrintCounts.getText().toString().trim() );
-        printcount	= 0;
-        continuityprint = true;
-        sendContinuityPrint();
-    }
-
-
+    
     private void sendContinuityPrint()
     {
         ThreadPool.getInstantiation().addTask( new Runnable()
@@ -1062,23 +1031,6 @@ public class MainActivity extends AppCompatActivity {
 
         DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].sendDataImmediately( datas );
     }
-
-
-    public void btnStopContinuityPrint( View v )
-    {
-        if ( DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id] == null ||
-                !DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].getConnState() )
-        {
-            Utils.toast( this, getString( R.string.str_cann_printer ) );
-            return;
-        }
-        if ( counts != 0 )
-        {
-            counts = 0;
-            Utils.toast( this, getString( R.string.str_stop_continuityprint_success ) );
-        }
-    }
-
 
     private BroadcastReceiver receiver = new BroadcastReceiver()
     {
