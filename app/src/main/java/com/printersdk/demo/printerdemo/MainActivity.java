@@ -51,7 +51,7 @@ import static com.printersdk.demo.printerdemo.DeviceConnFactoryManager.CONN_STAT
 /**
  * Created by Administrator
  *
- * @author 猿史森林
+ * @author
  *         Date: 2017/8/2
  *         Class description:
  */
@@ -63,33 +63,23 @@ public class MainActivity extends AppCompatActivity {
     private static final int	REQUEST_CODE = 0x004;
 
 
-    /**
-     * 连接状态断开
-     */
+
     private static final int CONN_STATE_DISCONN = 0x007;
 
 
-    /**
-     * 使用打印机指令错误
-     */
+
     private static final int PRINTER_COMMAND_ERROR = 0x008;
 
 
-    /**
-     * ESC查询打印机实时状态指令
-     */
+
     private byte[] esc = { 0x10, 0x04, 0x02 };
 
 
-    /**
-     * CPCL查询打印机实时状态指令
-     */
+
     private byte[] cpcl = { 0x1b, 0x68 };
 
 
-    /**
-     * TSC查询打印机状态指令
-     */
+
     private byte[] tsc = { 0x1b, '!', '?' };
 
     private static final int	CONN_MOST_DEVICES	= 0x11;
@@ -105,9 +95,7 @@ public class MainActivity extends AppCompatActivity {
     private ThreadPool		threadPool;
 
 
-    /**
-     * 判断打印机所使用指令是否是ESC指令
-     */
+
     private int		id = 0;
     private EditText	etPrintCounts;
     private Spinner		mode_sp;
@@ -182,52 +170,33 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * 蓝牙连接
-     */
     public void btnBluetoothConn( View view )
     {
         startActivityForResult( new Intent( this, BluetoothDeviceList.class ), Constant.BLUETOOTH_REQUEST_CODE );
     }
 
 
-    /**
-     * 连接多设备
-     *
-     * @param view
-     */
+
     public void btnMoreDevices( View view )
     {
         startActivityForResult( new Intent( this, ConnMoreDevicesActivity.class ), CONN_MOST_DEVICES );
     }
 
 
-    /**
-     * 串口连接
-     *
-     * @param view
-     */
+
     public void btnSerialPortConn( View view )
     {
         startActivityForResult( new Intent( this, SerialPortList.class ), Constant.SERIALPORT_REQUEST_CODE );
     }
 
 
-    /**
-     * USB连接
-     *
-     * @param view
-     */
+
     public void btnUsbConn( View view )
     {
         startActivityForResult( new Intent( this, UsbDeviceList.class ), Constant.USB_REQUEST_CODE );
     }
 
 
-    /**
-     * WIFI连接
-     * @param view
-     */
     public void btnWifiConn( View view )
     {
         WifiParameterConfigDialog wifiParameterConfigDialog = new WifiParameterConfigDialog( this, mHandler );
@@ -235,10 +204,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * 打印票据
-     * @param view
-     */
     public void btnReceiptPrint( View view )
     {
         if ( DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id] == null ||
@@ -262,10 +227,6 @@ public class MainActivity extends AppCompatActivity {
             }
         } );
     }
-    /**
-     * 打印面单
-     * @param view
-     */
     public void btnCpclPrint( View view )
     {
         if ( DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id] == null ||
@@ -322,7 +283,7 @@ public class MainActivity extends AppCompatActivity {
         cpcl.addJustification( CpclCommand.ALIGNMENT.LEFT );
         cpcl.addPrint();
         Vector<Byte> datas = cpcl.getCommand();
-        /* 发送数据 */
+
         DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].sendDataImmediately( datas );
     }
 
@@ -358,15 +319,12 @@ public class MainActivity extends AppCompatActivity {
         cpcl.addJustification( CpclCommand.ALIGNMENT.LEFT );
         cpcl.addPrint();
         Vector<Byte> datas = cpcl.getCommand();
-        /* 发送数据 */
+
         DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].sendDataImmediately( datas );
     }
 
 
-    /**
-     * 打印标签
-     * @param view
-     */
+
     public void btnLabelPrint( View view )
     {
         threadPool = ThreadPool.getInstantiation();
@@ -392,10 +350,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * 断开连接
-     * @param view
-     */
     public void btnDisConn( View view )
     {
         if ( DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id] == null ||
@@ -408,10 +362,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * 打印自检页
-     * @param view
-     */
     public void btnPrintSelftest( View view )
     {
         threadPool = ThreadPool.getInstantiation();
@@ -426,12 +376,6 @@ public class MainActivity extends AppCompatActivity {
                     mHandler.obtainMessage( CONN_PRINTER ).sendToTarget();
                     return;
                 }
-//                Vector<Byte> data = new Vector<>( tscmode.length );
-//                for ( int i = 0; i < selftest.length; i++ )
-//                {
-//                    data.add( selftest[i] );
-//                }
-//                DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].sendDataImmediately( data );
                 byte[] bytes = null;
                 if (DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].getCurrentPrinterCommand() == PrinterCommand.TSC){
                     bytes = FactoryCommand.getSelfTest(1);
@@ -452,10 +396,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * 打印XML
-     * @param view
-     */
     public void btnPrintXml( View view )
     {
         View		v		= View.inflate( this, R.layout.pj, null );
@@ -524,11 +464,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * mxl转bitmap图片
-     * @param view
-     * @return
-     */
     public static Bitmap convertViewToBitmap( View view )
     {
         view.measure( View.MeasureSpec.makeMeasureSpec( 0, View.MeasureSpec.UNSPECIFIED ), View.MeasureSpec.makeMeasureSpec( 0, View.MeasureSpec.UNSPECIFIED ) );
@@ -565,14 +500,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * 打印机状态查询
-     *
-     * @param view
-     */
     public void btnPrinterState( View view )
     {
-        /* 打印机状态查询 */
+
         if ( DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id] == null ||
                 !DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].getConnState() )
         {
@@ -612,13 +542,10 @@ public class MainActivity extends AppCompatActivity {
         } );
     }
 
-    /**
-     * 电量查询(仅票据可查询)
-     * @param v
-     */
+
 
     public void btnPrinterPower(View v){
-        /* 打印机状态查询 */
+
         if ( DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id] == null ||
                 !DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].getConnState() )
         {
@@ -645,9 +572,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    /**
-     * 多设备同步打印
-     */
     public void btnSynchronousPrint( View view )
     {
         int device = 0;
@@ -688,10 +612,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * 更换打印模式
-     * @param view
-     */
+
     public void btnModeChange( View view )
     {
         if ( DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id] == null ||
@@ -717,11 +638,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * 连续打印
-     *
-     * @param view
-     */
     public void btnReceiptAndLabelContinuityPrint( View view )
     {
         if ( DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id] == null ||
@@ -742,15 +658,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    /*
-     *        int sss(int i){   //判断打印第几个商品
-     *            int z=0;
-     *            for (int j=0;j<i+1;j++){
-     *                z+=sl[j];
-     *            }
-     *            return counts+z;
-     *        }
-     */
     private void sendContinuityPrint()
     {
         ThreadPool.getInstantiation().addTask( new Runnable()
@@ -774,16 +681,9 @@ public class MainActivity extends AppCompatActivity {
                                 sendReceiptWithResponse();
                             } else if ( DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].getCurrentPrinterCommand() == PrinterCommand.TSC )
                             {
-                                /* 标签模式可直接使用LabelCommand.addPrint()方法进行打印 */
+
                                 sendLabel();
-                                /*
-                                 *                                for(int i=0;i<sl.length;i++){ //  8个商品，8个数量
-                                 *                                    if(sss(i)>=36){
-                                 *                                        sendLabel(i,"第"+i+"个商品");
-                                 *                                        break;
-                                 *                                    }
-                                 *                                }
-                                 */
+
                             }else {
                                 sendCpcl();
                             }
@@ -803,21 +703,21 @@ public class MainActivity extends AppCompatActivity {
         {
             switch ( requestCode )
             {
-                /*蓝牙连接*/
+
                 case Constant.BLUETOOTH_REQUEST_CODE: {
                     closeport();
-                    /*获取蓝牙mac地址*/
+
                     String macAddress = data.getStringExtra( BluetoothDeviceList.EXTRA_DEVICE_ADDRESS );
-                    /* 初始化话DeviceConnFactoryManager */
+
                     new DeviceConnFactoryManager.Build()
                             .setId( id )
-                            /* 设置连接方式 */
+
                             .setConnMethod( DeviceConnFactoryManager.CONN_METHOD.BLUETOOTH )
-                            /* 设置连接的蓝牙mac地址 */
+
                             .setMacAddress( macAddress )
                             .build();
-                    /* 打开端口 */
-                    Log.d(TAG, "onActivityResult: 连接蓝牙"+id);
+
+                    Log.d(TAG, "onActivityResult: 58"+id);
                     threadPool = ThreadPool.getInstantiation();
                     threadPool.addTask( new Runnable()
                     {
@@ -830,44 +730,44 @@ public class MainActivity extends AppCompatActivity {
 
                     break;
                 }
-                /*USB连接*/
+
                 case Constant.USB_REQUEST_CODE: {
                     closeport();
-                    /* 获取USB设备名 */
+
                     usbName = data.getStringExtra( UsbDeviceList.USB_NAME );
-                    /* 通过USB设备名找到USB设备 */
+
                     UsbDevice usbDevice = Utils.getUsbDeviceFromName( MainActivity.this, usbName );
-                    /* 判断USB设备是否有权限 */
+
                     if ( usbManager.hasPermission( usbDevice ) )
                     {
                         usbConn( usbDevice );
-                    } else {        /* 请求权限 */
+                    } else {
                         mPermissionIntent = PendingIntent.getBroadcast( this, 0, new Intent( ACTION_USB_PERMISSION ), 0 );
                         usbManager.requestPermission( usbDevice, mPermissionIntent );
                     }
                     break;
                 }
-                /*串口连接*/
+
                 case Constant.SERIALPORT_REQUEST_CODE:
                     closeport();
-                    /* 获取波特率 */
+
                     int baudrate = data.getIntExtra( Constant.SERIALPORTBAUDRATE, 0 );
-                    /* 获取串口号 */
+
                     String path = data.getStringExtra( Constant.SERIALPORTPATH );
 
                     if ( baudrate != 0 && !TextUtils.isEmpty( path ) )
                     {
-                        /* 初始化DeviceConnFactoryManager */
+
                         new DeviceConnFactoryManager.Build()
-                                /* 设置连接方式 */
+
                                 .setConnMethod( DeviceConnFactoryManager.CONN_METHOD.SERIAL_PORT )
                                 .setId( id )
-                                /* 设置波特率 */
+
                                 .setBaudrate( baudrate )
-                                /* 设置串口号 */
+
                                 .setSerialPort( path )
                                 .build();
-                        /* 打开端口 */
+
                         DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].openPort();
                     }
                     break;
@@ -888,9 +788,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * 重新连接回收上次连接的对象，避免内存泄漏
-     */
     private void closeport()
     {
         if ( DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id] != null &&DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].mPort != null )
@@ -902,11 +799,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * usb连接
-     *
-     * @param usbDevice
-     */
     private void usbConn( UsbDevice usbDevice )
     {
         new DeviceConnFactoryManager.Build()
@@ -919,35 +811,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * 发送标签
-     */
     void sendLabel()
     {
         LabelCommand tsc = new LabelCommand();
-        /* 撕纸模式开启 */
+
         tsc.addTear( EscCommand.ENABLE.ON );
-        /* 设置标签尺寸，按照实际尺寸设置 */
+
         tsc.addSize( 80, 90 );
-        /* 设置标签间隙，按照实际尺寸设置，如果为无间隙纸则设置为0 */
+
         tsc.addGap( 0 );
-        /* 设置打印方向 */
+
         tsc.addDirection( LabelCommand.DIRECTION.FORWARD, LabelCommand.MIRROR.NORMAL );
-        /* 开启带Response的打印，用于连续打印 */
+
         tsc.addQueryPrinterStatus( LabelCommand.RESPONSE_MODE.ON );
-        /* 设置原点坐标 */
+
         tsc.addReference( 0, 0 );
-        /* 清除打印缓冲区 */
+
         tsc.addCls();
-        /* 绘制简体中文 */
+
         tsc.addText( 10, 0, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
                 "Welcome to use our printer" );
-        /* 绘制图片 */
+
         Bitmap b = BitmapFactory.decodeResource( getResources(), R.drawable.printer);
         tsc.addBitmap( 10, 20, LabelCommand.BITMAP_MODE.OVERWRITE, 300, b );
 
         tsc.addQRCode( 10, 330, LabelCommand.EEC.LEVEL_L, 5, LabelCommand.ROTATION.ROTATION_0, "Printer" );
-        /* 绘制一维条码 */
+
         tsc.add1DBarcode( 10, 450, LabelCommand.BARCODETYPE.CODE128, 100, LabelCommand.READABEL.EANBEL, LabelCommand.ROTATION.ROTATION_0, "SMARNET" );
 
         tsc.addText(10, 580, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
@@ -959,14 +848,14 @@ public class MainActivity extends AppCompatActivity {
         tsc.addText(190, 580, LabelCommand.FONTTYPE.KOREAN, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
                 "한국어" );
 
-        /* 打印标签 */
+
         tsc.addPrint( 1, 1 );
-        /* 打印标签后 蜂鸣器响 */
+
 
         tsc.addSound( 2, 100 );
         tsc.addCashdrwer( LabelCommand.FOOT.F5, 255, 255 );
         Vector<Byte> datas = tsc.getCommand();
-        /* 发送数据 */
+
         if ( DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id] == null )
         {
             Log.d(TAG, "sendLabel: 打印机为空");
@@ -976,76 +865,43 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    /*
-     *    String[]naica={"商品1","商品2","商品3","商品4","商品5","商品6","商品7","商品8"};
-     *    int [] sl={3,3,4,4,5,5,6,6};
-     *    void sendLabel(int i,String name) {
-     *        LabelCommand tsc = new LabelCommand();
-     *        // 设置标签尺寸，按照实际尺寸设置
-     *        tsc.addSize(60, 10);
-     *        // 设置标签间隙，按照实际尺寸设置，如果为无间隙纸则设置为0
-     *        tsc.addGap(0);
-     *        // 设置打印方向
-     *        tsc.addDirection(LabelCommand.DIRECTION.BACKWARD, LabelCommand.MIRROR.NORMAL);
-     *        // 开启带Response的打印，用于连续打印
-     *        tsc.addQueryPrinterStatus(LabelCommand.RESPONSE_MODE.ON);
-     *        // 设置原点坐标
-     *        tsc.addReference(0, 0);
-     *        // 撕纸模式开启
-     *        tsc.addTear(EscCommand.ENABLE.ON);
-     *        // 清除打印缓冲区
-     *        tsc.addCls();
-     *        // 绘制简体中文
-     *        tsc.addText(10, 0, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_2, LabelCommand.FONTMUL.MUL_2,
-     *                naica[i]);
-     *        tsc.addPrint(1, 1);
-     *        // 打印标签后 蜂鸣器响
-     *        tsc.addSound(2, 100);
-     *        tsc.addCashdrwer(LabelCommand.FOOT.F5, 255, 255);
-     *        Vector<Byte> datas = tsc.getCommand();
-     *        // 发送数据
-     *        if (DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id] == null) {
-     *            return;
-     *        }
-     *        DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].sendDataImmediately(datas);
-     *    }
-     */
+
 
     void sendLabel( int id )
     {
         LabelCommand tsc = new LabelCommand();
-        /* 撕纸模式开启 */
+
         tsc.addTear( EscCommand.ENABLE.ON );
-        /* 设置标签尺寸，按照实际尺寸设置 */
+
         tsc.addSize( 60, 60 );
-        /* 设置标签间隙，按照实际尺寸设置，如果为无间隙纸则设置为0 */
+
         tsc.addGap( 0 );
-        /* 设置打印方向 */
+
         tsc.addDirection( LabelCommand.DIRECTION.BACKWARD, LabelCommand.MIRROR.NORMAL );
-        /* 开启带Response的打印，用于连续打印 ，部分型号可用*/
+
         tsc.addQueryPrinterStatus( LabelCommand.RESPONSE_MODE.ON );
-        /* 设置原点坐标 */
+
         tsc.addReference( 0, 0 );
-        /* 清除打印缓冲区 */
+
         tsc.addCls();
-        /* 绘制简体中文 */
+
         tsc.addText( 10, 0, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
                 "Welcome to use our printer!" );
-        /* 绘制图片 */
+
         Bitmap b = BitmapFactory.decodeResource( getResources(), R.drawable.printer);
         tsc.addBitmap( 10, 20, LabelCommand.BITMAP_MODE.OVERWRITE, 300, b );
 
         tsc.addQRCode( 250, 80, LabelCommand.EEC.LEVEL_L, 5, LabelCommand.ROTATION.ROTATION_0, " Printer" );
-        /* 绘制一维条码 */
+
         tsc.add1DBarcode( 20, 250, LabelCommand.BARCODETYPE.CODE128, 100, LabelCommand.READABEL.EANBEL, LabelCommand.ROTATION.ROTATION_0, "SMARNET" );
-        /* 打印标签 */
+
         tsc.addPrint( 1, 1 );
-        /* 打印标签后 蜂鸣器响 */
+
 
         tsc.addSound( 2, 100 );
         tsc.addCashdrwer( LabelCommand.FOOT.F5, 255, 255 );
         Vector<Byte> datas = tsc.getCommand();
-        /* 发送数据 */
+
         if ( DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id] == null )
         {
             return;
@@ -1054,38 +910,35 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * 发送票据
-     */
+
     void sendReceiptWithResponse()
     {
         EscCommand esc = new EscCommand();
         esc.addInitializePrinter();
         esc.addPrintAndFeedLines( (byte) 3 );
-        /* 设置打印居中 */
+
         esc.addSelectJustification( EscCommand.JUSTIFICATION.CENTER );
-        /* 设置为倍高倍宽 */
+
         esc.addSelectPrintModes( EscCommand.FONT.FONTA, EscCommand.ENABLE.OFF, EscCommand.ENABLE.ON, EscCommand.ENABLE.ON, EscCommand.ENABLE.OFF );
-        /* 打印文字 */
+
         esc.addText( "TRANS LANKA\n" );
         esc.addPrintAndLineFeed();
 
-        /* 打印文字 */
-        /* 取消倍高倍宽 */
+
         esc.addSelectPrintModes( EscCommand.FONT.FONTA, EscCommand.ENABLE.OFF, EscCommand.ENABLE.OFF, EscCommand.ENABLE.OFF, EscCommand.ENABLE.OFF );
-        /* 设置打印左对齐 */
+
         esc.addSelectJustification( EscCommand.JUSTIFICATION.LEFT );
-        /* 打印文字 */
+
         esc.addText( "Print text\n" );
-        /* 打印文字 */
+
         esc.addText( "Welcome to use our printer!\n" );
 
-        /* 打印繁体中文 需要打印机支持繁体字库 */
+
         String message = "hellooo\n";
         esc.addText( message, "GB2312" );
         esc.addPrintAndLineFeed();
 
-        /* 绝对位置 具体详细信息请查看编程手册 */
+
         esc.addText( "A" );
         esc.addSetHorAndVerMotionUnits( (byte) 7, (byte) 0 );
         esc.addSetAbsolutePrintPosition( (short) 6 );
@@ -1153,30 +1006,29 @@ public class MainActivity extends AppCompatActivity {
         EscCommand esc = new EscCommand();
         esc.addInitializePrinter();
         esc.addPrintAndFeedLines( (byte) 3 );
-        /* 设置打印居中 */
+
         esc.addSelectJustification( EscCommand.JUSTIFICATION.CENTER );
-        /* 设置为倍高倍宽 */
+
         esc.addSelectPrintModes( EscCommand.FONT.FONTA, EscCommand.ENABLE.OFF, EscCommand.ENABLE.ON, EscCommand.ENABLE.ON, EscCommand.ENABLE.OFF );
-        /* 打印文字 */
+
         esc.addText( "BB\n" );
         esc.addPrintAndLineFeed();
 
-        /* 打印文字 */
-        /* 取消倍高倍宽 */
+
         esc.addSelectPrintModes( EscCommand.FONT.FONTA, EscCommand.ENABLE.OFF, EscCommand.ENABLE.OFF, EscCommand.ENABLE.OFF, EscCommand.ENABLE.OFF );
-        /* 设置打印左对齐 */
+
         esc.addSelectJustification( EscCommand.JUSTIFICATION.LEFT );
-        /* 打印文字 */
+
         esc.addText( "Print text\n" );
-        /* 打印文字 */
+
         esc.addText( "Welcome to use the printer!\n" );
 
-        /* 打印繁体中文 需要打印机支持繁体字库 */
+
         String message = "票據打印機繁体\n";
         esc.addText( message, "GB2312" );
         esc.addPrintAndLineFeed();
 
-        /* 绝对位置 具体详细信息请查看编程手册 */
+
         esc.addText( "打印" );
         esc.addSetHorAndVerMotionUnits( (byte) 7, (byte) 0 );
         esc.addSetAbsolutePrintPosition( (short) 6 );
@@ -1185,63 +1037,52 @@ public class MainActivity extends AppCompatActivity {
         esc.addText( "设备" );
         esc.addPrintAndLineFeed();
 
-        /* 打印图片 */
-        /* 打印文字 */
+
         esc.addText( "Print bitmap!\n" );
         Bitmap b = BitmapFactory.decodeResource( getResources(),
                 R.drawable.printer);
-        /* 打印图片 */
+
         esc.addRastBitImage( b, 380, 0 );
 
-        /* 打印一维条码 */
-        /* 打印文字 */
+
         esc.addText( "Print code128\n" );
         esc.addSelectPrintingPositionForHRICharacters( EscCommand.HRI_POSITION.BELOW );
-        /*
-         * 设置条码可识别字符位置在条码下方
-         * 设置条码高度为60点
-         */
+
         esc.addSetBarcodeHeight( (byte) 60 );
-        /* 设置条码单元宽度为1 */
+
         esc.addSetBarcodeWidth( (byte) 1 );
-        /* 打印Code128码 */
+
         esc.addCODE128( esc.genCodeB( "SMARNET" ) );
         esc.addPrintAndLineFeed();
 
 
-        /*
-         * QRCode命令打印 此命令只在支持QRCode命令打印的机型才能使用。 在不支持二维码指令打印的机型上，则需要发送二维条码图片
-         */
-        /* 打印文字 */
+
         esc.addText( "Print QRcode\n" );
-        /* 设置纠错等级 */
+
         esc.addSelectErrorCorrectionLevelForQRCode( (byte) 0x31 );
-        /* 设置qrcode模块大小 */
+
         esc.addSelectSizeOfModuleForQRCode( (byte) 3 );
-        /* 设置qrcode内容 */
+
         esc.addStoreQRCodeData( "Printer" );
         esc.addPrintQRCode(); /* 打印QRCode */
         esc.addPrintAndLineFeed();
 
-        /* 设置打印左对齐 */
+
         esc.addSelectJustification( EscCommand.JUSTIFICATION.CENTER );
-        /* 打印文字 */
+
         esc.addText( "Completed!\r\n" );
 
-        /* 开钱箱 */
+
         esc.addGeneratePlus( LabelCommand.FOOT.F5, (byte) 255, (byte) 255 );
         esc.addPrintAndFeedLines( (byte) 8 );
-        /* 加入查询打印机状态，用于连续打印 */
+
         byte[] bytes = { 29, 114, 1 };
         Vector<Byte> datas = esc.getCommand();
-        /* 发送数据 */
+
         DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].sendDataImmediately( datas );
     }
 
 
-    /**
-     * 停止连续打印
-     */
     public void btnStopContinuityPrint( View v )
     {
         if ( DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id] == null ||
@@ -1281,7 +1122,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                     break;
-                /* Usb连接断开、蓝牙连接断开广播 */
+
                 case ACTION_USB_DEVICE_DETACHED:
                     mHandler.obtainMessage( CONN_STATE_DISCONN ).sendToTarget();
                     break;
@@ -1301,15 +1142,7 @@ public class MainActivity extends AppCompatActivity {
                             break;
                         case DeviceConnFactoryManager.CONN_STATE_CONNECTED:
                             tvConnState.setText( getString( R.string.str_conn_state_connected ) + "\n" + getConnDeviceInfo() );
-                            /*
-                             *                            if(DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].connMethod== DeviceConnFactoryManager.CONN_METHOD.WIFI){
-                             *                                wificonn=true;
-                             *                                if(keepConn==null) {
-                             *                                    keepConn = new KeepConn();
-                             *                                    keepConn.start();
-                             *                                }
-                             *                            }
-                             */
+
                             break;
                         case CONN_STATE_FAILED:
                             Utils.toast( MainActivity.this, getString( R.string.str_conn_fail ) );
@@ -1364,15 +1197,15 @@ public class MainActivity extends AppCompatActivity {
                 case MESSAGE_UPDATE_PARAMETER:
                     String strIp = msg.getData().getString( "Ip" );
                     String strPort = msg.getData().getString( "Port" );
-                    /* 初始化端口信息 */
+
                     new DeviceConnFactoryManager.Build()
-                            /* 设置端口连接方式 */
+
                             .setConnMethod( DeviceConnFactoryManager.CONN_METHOD.WIFI )
-                            /* 设置端口IP地址 */
+
                             .setIp( strIp )
-                            /* 设置端口ID（主要用于连接多设备） */
+
                             .setId( id )
-                            /* 设置连接的热点端口号 */
+
                             .setPort( Integer.parseInt( strPort ) )
                             .build();
                     threadPool = ThreadPool.getInstantiation();
@@ -1387,13 +1220,13 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 default:
                     new DeviceConnFactoryManager.Build()
-                            /* 设置端口连接方式 */
+
                             .setConnMethod( DeviceConnFactoryManager.CONN_METHOD.WIFI )
-                            /* 设置端口IP地址 */
+
                             .setIp( "192.168.2.227" )
-                            /* 设置端口ID（主要用于连接多设备） */
+
                             .setId( id )
-                            /* 设置连接的热点端口号 */
+
                             .setPort( 9100 )
                             .build();
                     threadPool.addTask( new Runnable()
