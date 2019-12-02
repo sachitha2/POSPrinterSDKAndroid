@@ -48,13 +48,6 @@ import static com.printersdk.demo.printerdemo.DeviceConnFactoryManager.ACTION_QU
 import static com.printersdk.demo.printerdemo.DeviceConnFactoryManager.CONN_STATE_FAILED;
 
 
-/**
- * Created by Administrator
- *
- * @author
- *         Date: 2017/8/2
- *         Class description:
- */
 public class MainActivity extends AppCompatActivity {
     private static final String	TAG	= "MainActivity";
     ArrayList<String>		per	= new ArrayList<>();
@@ -97,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     private int		id = 0;
-    private EditText	etPrintCounts;
     private Spinner		mode_sp;
 //    private byte[]		tscmode		= { 0x1f, 0x1b, 0x1f, (byte) 0xfc, 0x01, 0x02, 0x03, 0x33 };
 //    private byte[]		cpclmode	= { 0x1f, 0x1b, 0x1f, (byte) 0xfc, 0x01, 0x02, 0x03, 0x44 };
@@ -116,7 +108,6 @@ public class MainActivity extends AppCompatActivity {
         checkPermission();
         requestPermission();
         tvConnState	= (TextView) findViewById( R.id.tv_connState );
-        etPrintCounts	= (EditText) findViewById( R.id.et_print_counts );
         initsp();
     }
 
@@ -198,65 +189,7 @@ public class MainActivity extends AppCompatActivity {
             }
         } );
     }
-    public void btnCpclPrint( View view )
-    {
-        if ( DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id] == null ||
-                !DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].getConnState() )
-        {
-            Utils.toast( this, getString( R.string.str_cann_printer ) );
-            return;
-        }
-        threadPool = ThreadPool.getInstantiation();
-        threadPool.addTask( new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                if ( DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].getCurrentPrinterCommand() == PrinterCommand.CPCL )
-                {
-                    sendCpcl();
-                } else {
-                    mHandler.obtainMessage( PRINTER_COMMAND_ERROR ).sendToTarget();
-                }
-            }
-        } );
-    }
 
-
-    private void sendCpcl()
-    {
-        CpclCommand cpcl = new CpclCommand();
-        cpcl.addInitializePrinter( 1130, 1 );
-        cpcl.addJustification( CpclCommand.ALIGNMENT.CENTER );
-        cpcl.addSetmag( 1, 1 );
-        cpcl.addText( CpclCommand.TEXT_FONT.FONT_4, 0, 30, "SAchitha Hirushan" );
-        cpcl.addSetmag( 0, 0 );
-        cpcl.addJustification( CpclCommand.ALIGNMENT.LEFT );
-        cpcl.addText( CpclCommand.TEXT_FONT.FONT_4, 0, 65, "Print text" );
-        cpcl.addText( CpclCommand.TEXT_FONT.FONT_4, 0, 95, "Welcom to use our printer!" );
-        cpcl.addText( CpclCommand.TEXT_FONT.FONT_13, 0, 135, "標籤打印機" );
-        cpcl.addText( CpclCommand.TEXT_FONT.FONT_4, 0, 195, "打印" );
-        cpcl.addJustification( CpclCommand.ALIGNMENT.CENTER );
-        cpcl.addText( CpclCommand.TEXT_FONT.FONT_4, 0, 195, "网络" );
-        cpcl.addJustification( CpclCommand.ALIGNMENT.RIGHT );
-        cpcl.addText( CpclCommand.TEXT_FONT.FONT_4, 0, 195, "设备" );
-        cpcl.addJustification( CpclCommand.ALIGNMENT.LEFT );
-        cpcl.addText( CpclCommand.TEXT_FONT.FONT_4, 0, 230, "Print bitmap!" );
-        Bitmap bitmap = BitmapFactory.decodeResource( getResources(), R.drawable.printer);
-        cpcl.addEGraphics( 0, 255, 385, bitmap );
-        cpcl.addText( CpclCommand.TEXT_FONT.FONT_4, 0, 645, "Print code128!" );
-        cpcl.addBarcodeText( 5, 2 );
-        cpcl.addBarcode( CpclCommand.COMMAND.BARCODE, CpclCommand.CPCLBARCODETYPE.CODE128, 50, 0, 680, "SMARNET" );
-        cpcl.addText( CpclCommand.TEXT_FONT.FONT_4, 0, 775, "Print QRcode" );
-        cpcl.addBQrcode( 0, 810, "QRcode" );
-        cpcl.addJustification( CpclCommand.ALIGNMENT.CENTER );
-        cpcl.addText( CpclCommand.TEXT_FONT.FONT_4, 0, 1010, "Completed" );
-        cpcl.addJustification( CpclCommand.ALIGNMENT.LEFT );
-        cpcl.addPrint();
-        Vector<Byte> datas = cpcl.getCommand();
-
-        DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].sendDataImmediately( datas );
-    }
 
 
     private void sendCpcl( int id )
@@ -294,33 +227,6 @@ public class MainActivity extends AppCompatActivity {
         DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].sendDataImmediately( datas );
     }
 
-
-
-    public void btnLabelPrint( View view )
-    {
-        threadPool = ThreadPool.getInstantiation();
-        threadPool.addTask( new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                if ( DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id] == null ||
-                        !DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].getConnState() )
-                {
-                    mHandler.obtainMessage( CONN_PRINTER ).sendToTarget();
-                    return;
-                }
-                if ( DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].getCurrentPrinterCommand() == PrinterCommand.TSC )
-                {
-                    sendLabel();
-                } else {
-                    mHandler.obtainMessage( PRINTER_COMMAND_ERROR ).sendToTarget();
-                }
-            }
-        } );
-    }
-
-
     public void btnDisConn( View view )
     {
         if ( DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id] == null ||
@@ -333,38 +239,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void btnPrintSelftest( View view )
-    {
-        threadPool = ThreadPool.getInstantiation();
-        threadPool.addTask( new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                if ( DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id] == null ||
-                        !DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].getConnState() )
-                {
-                    mHandler.obtainMessage( CONN_PRINTER ).sendToTarget();
-                    return;
-                }
-                byte[] bytes = null;
-                if (DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].getCurrentPrinterCommand() == PrinterCommand.TSC){
-                    bytes = FactoryCommand.getSelfTest(1);
-                }else if (DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].getCurrentPrinterCommand() == PrinterCommand.ESC){
-                    bytes = FactoryCommand.getSelfTest(0);
-                }
-                if (bytes != null){
-                    Vector<Byte> data = new Vector<>( bytes.length );
-                    for ( int i = 0; i < bytes.length; i++ )
-                    {
-                        data.add( bytes[i] );
-                    }
-                    DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].sendDataImmediately( data );
-                }
 
-            }
-        } );
-    }
 
 
     public void btnPrintXml( View view )
@@ -543,44 +418,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    public void btnSynchronousPrint( View view )
-    {
-        int device = 0;
-        for ( int i = 0; i < 4; i++ )
-        {
-            final int id = i;
-            if ( DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id] == null ||
-                    !DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].getConnState() )
-            {
-                device++;
-                if ( device == 4 )
-                {
-                    Utils.toast( this, getString( R.string.str_cann_printer ) );
-                }
-                continue;
-            }
-            threadPool = ThreadPool.getInstantiation();
-            threadPool.addTask( new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    if ( DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].getCurrentPrinterCommand() == PrinterCommand.CPCL )
-                    {
-                        sendCpcl( id );
-                    } else if ( DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].getCurrentPrinterCommand() == PrinterCommand.TSC )
-                    {
-                        sendLabel( id );
-                    }else if ( DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].getCurrentPrinterCommand() == PrinterCommand.ESC )
-                    {
-                        sendReceiptWithResponse( id );
-                    } else {
-                        mHandler.obtainMessage( PRINTER_COMMAND_ERROR ).sendToTarget();
-                    }
-                }
-            } );
-        }
-    }
+
 
 
 
@@ -606,42 +444,6 @@ public class MainActivity extends AppCompatActivity {
         }
         DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].sendDataImmediately( data );
         DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].closePort( id );
-    }
-    
-    private void sendContinuityPrint()
-    {
-        ThreadPool.getInstantiation().addTask( new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                if ( DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id] != null
-                        && DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].getConnState() )
-                {
-                    ThreadFactoryBuilder threadFactoryBuilder = new ThreadFactoryBuilder( "MainActivity_sendContinuity_Timer" );
-                    ScheduledExecutorService scheduledExecutorService = new ScheduledThreadPoolExecutor( 1, threadFactoryBuilder );
-                    scheduledExecutorService.schedule( threadFactoryBuilder.newThread( new Runnable()
-                    {
-                        @Override
-                        public void run()
-                        {
-                            counts--;
-                            if ( DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].getCurrentPrinterCommand() == PrinterCommand.ESC )
-                            {
-                                sendReceiptWithResponse();
-                            } else if ( DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].getCurrentPrinterCommand() == PrinterCommand.TSC )
-                            {
-
-                                sendLabel();
-
-                            }else {
-                                sendCpcl();
-                            }
-                        }
-                    } ), 1000, TimeUnit.MILLISECONDS );
-                }
-            }
-        } );
     }
 
 
@@ -1096,7 +898,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                         if ( counts != 0 )
                         {
-                            sendContinuityPrint();
+
                         }else {
                             continuityprint = false;
                         }

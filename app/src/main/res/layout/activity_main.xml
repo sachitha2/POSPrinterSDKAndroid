@@ -52,17 +52,9 @@
                     android:onClick="btnReceiptPrint"
                     android:text="@string/str_receipt_print"/>
 
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:onClick="btnLabelPrint"
-                    android:text="@string/str_label_print"/>
 
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:onClick="btnCpclPrint"
-                    android:text="@string/str_cpcl_print"/>
+
+
 
                 <Button
                     android:layout_width="match_parent"
@@ -104,20 +96,6 @@
                         />
                 </LinearLayout>
 
-
-
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:onClick="btnSynchronousPrint"
-                    android:text="@string/str_synchronous_print"/>
-
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:onClick="btnPrintSelftest"
-                    android:text="@string/str_print_selftest"/>
-
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -126,31 +104,6 @@
 
 
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="@string/str_tv_printcount"
-                    android:textSize="15dp"/>
-
-                <EditText
-                    android:id="@+id/et_print_counts"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint=""
-                    android:inputType="number"/>
-            </LinearLayout>
-
-
-
-
-
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
