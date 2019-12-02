@@ -184,25 +184,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    public void btnSerialPortConn( View view )
-    {
-        startActivityForResult( new Intent( this, SerialPortList.class ), Constant.SERIALPORT_REQUEST_CODE );
-    }
-
-
-
-    public void btnUsbConn( View view )
-    {
-        startActivityForResult( new Intent( this, UsbDeviceList.class ), Constant.USB_REQUEST_CODE );
-    }
-
-
-    public void btnWifiConn( View view )
-    {
-        WifiParameterConfigDialog wifiParameterConfigDialog = new WifiParameterConfigDialog( this, mHandler );
-        wifiParameterConfigDialog.show();
-    }
-
 
     public void btnReceiptPrint( View view )
     {

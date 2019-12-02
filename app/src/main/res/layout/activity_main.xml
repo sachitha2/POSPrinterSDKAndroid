@@ -27,23 +27,7 @@
                     android:onClick="btnBluetoothConn"
                     android:text="@string/str_bluetooth_connect"/>
 
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:onClick="btnUsbConn"
-                    android:text="@string/str_usb_connect"/>
 
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:onClick="btnWifiConn"
-                    android:text="@string/str_wifi_connect"/>
-
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:onClick="btnSerialPortConn"
-                    android:text="@string/str_serialport_connect"/>
 
             </LinearLayout>
 
@@ -139,17 +123,10 @@
                     android:layout_height="wrap_content"
                     android:onClick="btnPrintXml"
                     android:text="@string/str_print_xml"/>
-                <!--<Button-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:onClick="btnceshi"-->
-                <!--android:text="测试"/>-->
+
 
             </LinearLayout>
-            <!--<TextView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="150dp"-->
-            <!--android:id="@+id/tv_read"/>-->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
